@@ -7,7 +7,7 @@ import java.awt.Rectangle;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;//every moment is action event
+import java.awt.event.ActionEvent;//every moment is called action event
 import java.awt.event.ActionListener;//The moment which is used to record by action Listener
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;//it will record what key you pressed
@@ -33,7 +33,7 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
     public GamePlay() {//constructor
         map = new MapGenerator(3, 7);// initialization
         addKeyListener(this);//parent class
-        setFocusable(true);// it is used to run the game
+        setFocusable(true);  // it is used to run the game
         setFocusTraversalKeysEnabled(false);
         Timer = new Timer(delay, this);
         Timer.start();
@@ -62,7 +62,7 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
         g.fillOval(ballposX, ballposY, 20, 20);
         
          //Edge Cases
-        if (ballposY > 570) {  //To Stop the Ball moment
+        if (ballposY > 570) {  //If ball goes below the slider then you loose
             play = false;
             ballXdir = 0;
             ballYdir = 0;
@@ -73,7 +73,7 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
             g.setFont(new Font("serif", Font.BOLD, 30));
             g.drawString("   Press Enter to Restart", 190, 340);
         }
-        if(totalbricks == 0){
+        if(totalbricks == 0){ //if all bricks are destroyed then you win
             play = false;
             ballYdir = -2;
             ballXdir = -1;
@@ -96,15 +96,15 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
     public void actionPerformed(ActionEvent e) {
         Timer.start();
 
-        if (play) {
+        if (play) {  // Ball - slider Interaction
             if (new Rectangle(ballposX, ballposY, 20, 20).intersects(new Rectangle(playerX, 550, 100, 8))) {
                 ballYdir = -ballYdir;
             }
 
             A://  Anchor tag
-            for (int i = 0; i < map.map.length; i++) {// Accessing length of 2D-Array of map inside Map class
-                for (int j = 0; j < map.map[0].length; j++) {
-                    if (map.map[i][j] > 0) {//class.2D array(That means there is a visible brick)
+            for (int i = 0; i < map.map.length; i++) {          // Ball-Brick Interaction
+                for (int j = 0; j < map.map[0].length; j++) {   // Accessing length of 2D-Array of map inside Map class
+                    if (map.map[i][j] > 0) {                 //class.2D array(That means there is a visible brick)
                         int brickX = j * map.bricksWidth + 80;
                         int brickY = i * map.bricksHeight + 50;
                         int bricksWidth = map.bricksWidth;
@@ -160,14 +160,14 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {// It  will tell which key is pressed
+        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {    // If right arrow key is pressed then the slider moves right
             if (playerX >= 600) {// keep the slider there only
                 playerX = 600;
             } else {
                 moveRight();
             }
         }
-        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+        if (e.getKeyCode() == KeyEvent.VK_LEFT) {     // If left arrow key is pressed then the slider moves left
             if (playerX < 10) {
                 playerX = 10;
             } else {
@@ -175,7 +175,7 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
             }
         }
 
-        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {    // If enter key is pressed then game restarts
             if (!play) {
                 ballposX = 120;
                 ballposY = 350;
@@ -193,12 +193,12 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
 
     }
 
-    public void moveRight ()
+    public void moveRight ()   //slider move right by 20 pixels
     {
         play = true;// game start
         playerX += 20;
     }
-    public void moveLeft ()
+    public void moveLeft ()    //slider move left by 20 pixels
     {
         play = true;
         playerX -= 20;
