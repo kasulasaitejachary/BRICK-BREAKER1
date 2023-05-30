@@ -1,16 +1,16 @@
 
 
 import javax.swing.JPanel;
-import javax.swing.Timer;
+import javax.swing.Timer;// project time
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;//every moment is action event
+import java.awt.event.ActionListener;//The moment which is used to record by action Listener
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.KeyListener;//it will record what key you pressed
 
 /**
  *
@@ -23,17 +23,17 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
     private int totalbricks = 21;
     private Timer Timer;
     private int delay = 8;
-    private int playerX = 310;
+    private int playerX = 310;//slider position
     private int ballposX = 120;
     private int ballposY = 350;
     private int ballXdir = -1;
     private int ballYdir = -2;
     private MapGenerator map;
 
-    public GamePlay() {
-        map = new MapGenerator(3, 7);
-        addKeyListener(this);
-        setFocusable(true);
+    public GamePlay() {//constructor
+        map = new MapGenerator(3, 7);// initialization
+        addKeyListener(this);//parent class
+        setFocusable(true);// it is used to run the game
         setFocusTraversalKeysEnabled(false);
         Timer = new Timer(delay, this);
         Timer.start();
@@ -55,13 +55,14 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
         g.drawString("" + score, 590, 30);
 
         g.setColor(Color.yellow);
-        g.fillRect(playerX, 550, 100, 8);
+        g.fillRect(playerX, 550, 100, 8);//only X-position is changing and Y is fixed
 
         //ball
         g.setColor(Color.GREEN);
         g.fillOval(ballposX, ballposY, 20, 20);
-
-        if (ballposY > 570) {
+        
+         //Edge Cases
+        if (ballposY > 570) {  //To Stop the Ball moment
             play = false;
             ballXdir = 0;
             ballYdir = 0;
@@ -86,7 +87,7 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
 
         }
 
-        g.dispose();
+        g.dispose();// To kill the graphics & program and restart the game(New graphics will generate)
 
 
     }
@@ -100,10 +101,10 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
                 ballYdir = -ballYdir;
             }
 
-            A:
-            for (int i = 0; i < map.map.length; i++) {
+            A://  Anchor tag
+            for (int i = 0; i < map.map.length; i++) {// Accessing length of 2D-Array of map inside Map class
                 for (int j = 0; j < map.map[0].length; j++) {
-                    if (map.map[i][j] > 0) {
+                    if (map.map[i][j] > 0) {//class.2D array(That means there is a visible brick)
                         int brickX = j * map.bricksWidth + 80;
                         int brickY = i * map.bricksHeight + 50;
                         int bricksWidth = map.bricksWidth;
@@ -122,7 +123,7 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
                             } else {
                                 ballYdir = -ballYdir;
                             }
-                            break A;
+                            break A;//if we want break outer loop(106)
                         }
                     }
 
@@ -133,17 +134,17 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
 
             ballposX += ballXdir;
             ballposY += ballYdir;
-            if (ballposX < 0) {
+            if (ballposX < 0) {// ball hits left boundary, the ball has to reflect
                 ballXdir = -ballXdir;
             }
-            if (ballposY < 0) {
+            if (ballposY < 0) {// ball hits top
                 ballYdir = -ballYdir;
             }
-            if (ballposX > 670) {
+            if (ballposX > 670) {// ball hits right boundary
                 ballXdir = -ballXdir;
             }
         }
-        repaint();
+        repaint();// When ball hits brick it will paint black(0) or it will paint red(1)
     }
 
     @Override
@@ -159,8 +160,8 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            if (playerX >= 600) {
+        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {// It  will tell which key is pressed
+            if (playerX >= 600) {// keep the slider there only
                 playerX = 600;
             } else {
                 moveRight();
@@ -183,7 +184,7 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
                 score = 0;
                 playerX = 310;
                 totalbricks = 21;
-                map = new MapGenerator(3, 7);
+                map = new MapGenerator(3, 7);// Re-generate map again
 
                 repaint();
             }
@@ -194,7 +195,7 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
 
     public void moveRight ()
     {
-        play = true;
+        play = true;// game start
         playerX += 20;
     }
     public void moveLeft ()
