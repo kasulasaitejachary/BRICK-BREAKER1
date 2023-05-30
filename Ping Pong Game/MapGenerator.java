@@ -38,7 +38,7 @@ public class MapGenerator {
 
         }
     }
-    public void setBricksValue(int value,int row,int col)
+    public void setBricksValue(int value,int row,int col)//to change value from 1 to 0(ball hits brick)
     {
         map[row][col] = value;
 
